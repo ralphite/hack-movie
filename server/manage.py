@@ -36,5 +36,25 @@ def make_shell_context():
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
+
+@manager.command
+def populate_data():
+    from app.models import Movie, Links, Ratings, Tags
+
+    with(open('./data/movies.csv', 'r')) as movie_data:
+        for line in movie_data:
+            if not line[:7] == 'movieId':
+                # movieId,title,genres
+                # 2,Jumanji (1995),Adventure|Children|Fantasy
+                line = line.strip()
+                movie = Movie()
+                print line
+                first_index = line.find(',')
+                last_index = line.rfind(',')
+                movie.movie_id, movie.title, movie.genres = line[:first_index], line[first_index + 1:last_index], line[last_index + 1:]
+                db.session.add(movie)
+        db.session.commit()
+
+
 if __name__ == '__main__':
     manager.run()

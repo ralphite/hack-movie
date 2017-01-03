@@ -22,7 +22,7 @@ class Movie(db.Model):
     __tablename__ = 'movies'
 
     movie_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
+    title = db.Column(db.UnicodeText)
     genres = db.Column(db.UnicodeText)
 
     def get_movie(self):
