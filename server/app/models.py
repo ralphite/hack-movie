@@ -39,8 +39,8 @@ class Movie(db.Model):
 class Ratings(db.Model):
     __tablename__ = 'ratings'
 
-    user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
-    movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False)
+    user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False, primary_key=True)
+    movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False, primary_key=True)
     rating = db.Column(db.String(100))
     timestamp = db.Column(db.String(100))
 
@@ -59,8 +59,8 @@ class Ratings(db.Model):
 class Tags(db.Model):
     __tablename__ = 'tags'
 
-    user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
-    movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False)
+    user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False, primary_key=True)
+    movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False, primary_key=True)
     tag = db.Column(db.String(100))
     timestamp = db.Column(db.String(100))
 
@@ -79,7 +79,7 @@ class Tags(db.Model):
 class Links(db.Model):
     __tablename__ = 'links'
 
-    movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False)
+    movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False, primary_key=True)
     imdb_id = db.Column(db.String(100))
     tmdb_id = db.Column(db.String(100))
 
