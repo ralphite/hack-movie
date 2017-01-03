@@ -10,7 +10,7 @@ from flask.ext.login import LoginManager
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.cache import Cache
 from flask.ext.debugtoolbar import DebugToolbarExtension
-from flask.ext.webpack import Webpack
+# from flask.ext.webpack import Webpack
 from flask.ext.admin import Admin
 from flask.ext.admin.contrib.sqla import ModelView
 
@@ -25,7 +25,7 @@ login_manager.login_view = 'auth.login'
 bcrypt = Bcrypt()
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
-webpack = Webpack()
+# webpack = Webpack()
 
 
 def create_app(config_type):
@@ -40,7 +40,7 @@ def create_app(config_type):
     bcrypt.init_app(app)
     cache.init_app(app)
     debug_toolbar.init_app(app)
-    webpack.init_app(app)
+    # webpack.init_app(app)
 
     admin = Admin(app, name='HACKMOVIE', template_mode='bootstrap3')
 
