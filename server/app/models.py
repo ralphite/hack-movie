@@ -61,7 +61,7 @@ class Tags(db.Model):
 
     user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False, primary_key=True)
     movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False, primary_key=True)
-    tag = db.Column(db.String(100))
+    tag = db.Column(db.String(100), primary_key=True)
     timestamp = db.Column(db.String(100))
 
     def get_rating(self):

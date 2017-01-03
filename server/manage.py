@@ -39,7 +39,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def populate_data():
-    from app.models import Movie, Links, Ratings, Tags
+    from app.models import Movie, Links, Ratings, Tags, User
 
     with(open('./data/movies.csv', 'r')) as movie_data:
         for line in movie_data:
@@ -48,11 +48,56 @@ def populate_data():
                 # 2,Jumanji (1995),Adventure|Children|Fantasy
                 line = line.strip()
                 movie = Movie()
-                print line
                 first_index = line.find(',')
                 last_index = line.rfind(',')
-                movie.movie_id, movie.title, movie.genres = line[:first_index], line[first_index + 1:last_index], line[last_index + 1:]
+                movie.movie_id, movie.title, movie.genres = \
+                    line[:first_index], line[first_index + 1:last_index], line[last_index + 1:]
                 db.session.add(movie)
+        db.session.commit()
+
+    with(open('./data/links.csv', 'r')) as links_data:
+        for line in links_data:
+            if not line[:7] == 'movieId':
+                # movieId,imdbId,tmdbId
+                # 1,0114709,862
+                line = line.strip()
+                link = Links()
+                first_index = line.find(',')
+                first_index = line.find(',')
+                link.movie_id, link.imdb_id, link.tmdb_id = \
+                    line[:first_index], line[first_index + 1:last_index], line[last_index + 1:]
+                db.session.add(link)
+        db.session.commit()
+
+    for user_id in xrange(1, 672):
+        user = User()
+        user.user_id = user_id
+        db.session.add(user)
+    db.session.commit()
+
+    with(open('./data/tags.csv', 'r')) as tags_data:
+        for line in tags_data:
+            if not line[:6] == 'userId':
+                # userId,movieId,tag,timestamp
+                # 15,339,sandra 'boring' bullock,1138537770
+                line = line.strip()
+                tag = Tags()
+                arr = line.split(',')
+                tag.user_id, tag.movie_id = arr[:2]
+                tag.timestamp = arr[-1]
+                tag.tag = ','.join(arr[2:-1])
+                db.session.add(tag)
+        db.session.commit()
+
+    with(open('./data/ratings.csv', 'r')) as ratings_data:
+        for line in ratings_data:
+            if not line[:6] == 'userId':
+                # userId,movieId,rating,timestamp
+                # 1,31,2.5,1260759144
+                line = line.strip()
+                rating = Ratings()
+                rating.user_id, rating.movie_id, rating.rating, rating.timestamp = line.split(',')
+                db.session.add(rating)
         db.session.commit()
 
 
