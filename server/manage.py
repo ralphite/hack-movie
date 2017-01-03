@@ -62,10 +62,7 @@ def populate_data():
                 # 1,0114709,862
                 line = line.strip()
                 link = Links()
-                first_index = line.find(',')
-                first_index = line.find(',')
-                link.movie_id, link.imdb_id, link.tmdb_id = \
-                    line[:first_index], line[first_index + 1:last_index], line[last_index + 1:]
+                link.movie_id, link.imdb_id, link.tmdb_id = line.split(',')
                 db.session.add(link)
         db.session.commit()
 
