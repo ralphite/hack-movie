@@ -14,9 +14,9 @@ from ... import db
 from app.models import Movie, Ratings
 
 
-@api.route('/ratings/<user_id>/<movie_id>', methods=['GET'])
+@api.route('/rating/<user_id>/<movie_id>', methods=['GET'])
 def get_rating(user_id, movie_id):
-    rating = db.query.filter_by(db.and_(user_id=user_id, movie_id=movie_id)).first_or_404()
+    rating = Ratings.query.filter_by(user_id=user_id).filter_by(movie_id=movie_id).first_or_404()
 
     return jsonify(rating.get_rating())
 
