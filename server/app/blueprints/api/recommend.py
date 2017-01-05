@@ -15,15 +15,10 @@ from ... import db
 
 from random import sample
 
-from app.models import Movie, Ratings, Links
+from app.models import Movie, Ratings, Links, Rec
 
 from app.utils.poster import get_poster
-
-
-def get_rec_movies(movie_id):
-    movies = Movie.query.all()
-
-    return [m.movie_id for m in sample(movies, 5)]
+from app.rec_service.rec import rec_for_movie
 
 
 def get_movie(movie_id):
@@ -43,7 +38,24 @@ def get_movie(movie_id):
 
 @api.route('/get-recommendation/<movie_id>', methods=['GET'])
 def get_recommendation(movie_id):
-    movies_ids = get_rec_movies(movie_id)
+
+    recs = Rec.query.filter_by(movie_id=movie_id).all()
+    movies_ids = [r.rec_movie_id for r in recs]
+
+    if not movies_ids:
+        movies_ids = rec_for_movie(movie_id)
+        for mid in movies_ids:
+            r = Rec()
+            r.movie_id = movie_id
+            r.rec_movie_id = mid
+
+            db.session.add(r)
+
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+
 
     return jsonify({
         'rec_movies': [get_movie(movie_id) for movie_id in movies_ids]
