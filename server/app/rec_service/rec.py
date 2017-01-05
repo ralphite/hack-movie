@@ -44,13 +44,13 @@ def rec_for_movie(movie_id):
     groupby_data = data[['movie_id', 'rating']].groupby(['movie_id']).agg(['std', 'mean', 'count'])
 
     groupby_data.columns = groupby_data.columns.droplevel(0)
-    a = groupby_data['count'] > 50
-    b = groupby_data[a]
+    filtered_groupby_data = groupby_data[groupby_data['count'] > 50]
 
-    sim_100_mov = b.join(similar_movies)
-    sim_100_mov.columns = ['count', 'mean', 'std', 'similarity']
-    sim_100_mov = sim_100_mov.sort_values('similarity', ascending=False)
+    result = filtered_groupby_data.join(similar_movies)
+    result.columns = ['count', 'mean', 'std', 'similarity']
+    result = result.sort_values('similarity', ascending=False)
 
-    print sim_100_mov
+    ids = result.head(6).to_dict()['count'].keys()
+    return [i for i in ids if i != movie_id][:5]
 
-rec_for_movie(13)
+print rec_for_movie(13)

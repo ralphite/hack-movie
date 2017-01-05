@@ -13,6 +13,7 @@ from app.models import Movie, Links
 
 from app.utils import image
 
+
 @api.route('/movie/<movie_id>', methods=['GET'])
 def get_movie(movie_id):
     movie = Movie.query.filter_by(movie_id=movie_id).first_or_404()
