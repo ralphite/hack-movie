@@ -11,3 +11,4 @@ api = Blueprint('api', __name__)
 
 import movie
 import ratings
+import recommend
