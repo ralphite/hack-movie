@@ -6,6 +6,8 @@
 
 import os
 
+# from app.rec_service import rec
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # import configuration from .env file.

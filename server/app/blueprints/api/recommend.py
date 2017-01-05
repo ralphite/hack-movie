@@ -17,6 +17,8 @@ from random import sample
 
 from app.models import Movie, Ratings, Links
 
+from app.utils import image
+
 
 def get_rec_movies(movie_id):
     movies = Movie.query.all()
@@ -33,6 +35,8 @@ def get_movie(movie_id):
 
     res['imdbId'] = link.imdb_id
     res['tmdbId'] = link.tmdb_id
+
+    res['image'] = image.get_poster(link.tmdb_id)
 
     return res
 
