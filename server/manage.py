@@ -6,7 +6,6 @@
 
 import os
 
-from app.rec_service import rec
 from app.utils.poster import get_poster
 from app.models import Movie, Links, Ratings, Tags, User, Rec
 
@@ -119,6 +118,8 @@ def add_posters():
 
 @manager.command
 def add_rec():
+    from app.rec_service import rec
+
     movies = Movie.query.all()
     movies = [m for m in movies if m.poster]
 
