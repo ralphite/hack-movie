@@ -7,35 +7,38 @@
             ~~hack-movie rest api server~~
         </h1>
 
-    <table class="table table-bordered table-hover table-striped">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Link</th>
+            </tr>
+            </thead>
 
+            <tbody>
+            <tr>
+                <td>movies</td>
+                <td><a href="/api/movies">/api/movies</a></td>
+            </tr>
+            <tr>
+                <td>a movie</td>
+                <td><a href="/api/movie/1">/api/movie/[movieId]></a></td>
+            </tr>
+            <tr>
+                <td>ratings</td>
+                <td><a href="/api/ratings">/api/ratings</a></td>
+            </tr>
+            <tr>
+                <td>a rating</td>
+                <td><a href="/api/rating/1/31">/api/rating/[userId]/[movieId]</a></td>
+            </tr>
+            <tr>
+                <td>post a rating [POST]</td>
+                <td><a href="/api/rating/1/31/4.5">/api/rating/[userId]/[movieId]/[rate]</a></td>
+            </tr>
 
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Link</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr>
-            <td>movies</td>
-            <td><a href="/api/movies">/api/movies</a> </td>
-        </tr>
-        <tr>
-            <td>a movie</td>
-            <td><a href="/api/movie/1">/api/movie/[movieId]></a> </td>
-        </tr>
-        <tr>
-            <td>ratings</td>
-            <td><a href="/api/ratings">/api/ratings</a> </td>
-        </tr>
-        <tr>
-            <td>a rating</td>
-            <td><a href="/api/rating/1/31">/api/rating/[userId]/[movieId]</a> </td>
-        </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     </div>
 
 {% endblock %}
