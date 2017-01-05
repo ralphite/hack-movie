@@ -34,9 +34,13 @@ def get_all_ratings():
 
 @api.route('/rating/<user_id>/<movie_id>/<rate>', methods=['POST'])
 def rate(user_id, movie_id, rate):
-    ratings = Ratings()
-    ratings.user_id = user_id
-    ratings.movie_id = movie_id
+    ratings = Ratings.query.filter_by(user_id=user_id).filter_by(movie_id=movie_id).first()
+
+    if not ratings:
+        ratings = Ratings()
+        ratings.user_id = user_id
+        ratings.movie_id = movie_id
+
     ratings.rating = rate
     ratings.timestamp = str(int(time()))
 
