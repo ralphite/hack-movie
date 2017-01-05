@@ -21,13 +21,13 @@ from app.models import Movie, Ratings
 def get_rec_movies(user_id):
     movies = Movie.query.all()
 
-    return sample(movies, 5)
+    return [m.movie_id for m in sample(movies, 5)]
 
 
 @api.route('/get-recommendation/<user_id>', methods=['GET'])
 def get_recommendation(user_id):
-    movies = get_rec_movies(user_id)
+    movies_ids = get_rec_movies(user_id)
 
     return jsonify({
-        'rec_movies': [m.get_movie() for m in movies]
+        'rec_movies': movies_ids
     })
