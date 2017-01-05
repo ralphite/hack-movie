@@ -91,3 +91,11 @@ class Links(db.Model):
             'imdbId': self.imdb_id,
             'tmdbId': self.tmdb_id
         }
+
+
+class Rec(db.Model):
+    __tablename__ = 'rec'
+
+    movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False, primary_key=True)
+    rec_movie_id = db.Column(db.ForeignKey('movies.movie_id'), nullable=False, primary_key=True)
+
