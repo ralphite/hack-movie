@@ -24,12 +24,14 @@ class Movie(db.Model):
     movie_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.UnicodeText)
     genres = db.Column(db.UnicodeText)
+    poster = db.Column(db.UnicodeText)
 
     def get_movie(self):
         return {
             'movieId': self.movie_id,
             'title': self.title,
-            'genres': self.genres
+            'genres': self.genres,
+            'poster': self.poster
         }
 
     def __repr__(self):

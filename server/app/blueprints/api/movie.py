@@ -11,7 +11,7 @@ from . import api
 
 from app.models import Movie, Links
 
-from app.utils import image
+from app.utils.poster import get_poster
 
 
 @api.route('/movie/<movie_id>', methods=['GET'])
@@ -25,7 +25,7 @@ def get_movie(movie_id):
     res['imdbId'] = link.imdb_id
     res['tmdbId'] = link.tmdb_id
 
-    res['image'] = image.get_poster(link.tmdb_id)
+    res['image'] = get_poster(link.tmdb_id)
 
     return jsonify(res)
 

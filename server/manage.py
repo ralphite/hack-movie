@@ -7,6 +7,7 @@
 import os
 
 from app.rec_service import rec
+from app.utils.poster import get_poster
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -99,6 +100,23 @@ def populate_data():
                 db.session.add(rating)
         db.session.commit()
 
+
+@manager.command
+def add_posters():
+    from app.models import Movie, Links, Ratings, Tags, User
+
+    movies = Movie.query.all()
+
+    for movie in movies[:1000]:
+        link = Links.query.filter_by(movie_id=movie.movie_id).first_or_404()
+        movie.poster = get_poster(link.tmdb_id)
+
+        db.session.add(movie)
+
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
 
 if __name__ == '__main__':
     manager.run()

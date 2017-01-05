@@ -17,7 +17,7 @@ from random import sample
 
 from app.models import Movie, Ratings, Links
 
-from app.utils import image
+from app.utils.poster import get_poster
 
 
 def get_rec_movies(movie_id):
@@ -36,7 +36,7 @@ def get_movie(movie_id):
     res['imdbId'] = link.imdb_id
     res['tmdbId'] = link.tmdb_id
 
-    res['image'] = image.get_poster(link.tmdb_id)
+    res['image'] = get_poster(link.tmdb_id)
 
     return res
 
@@ -48,3 +48,4 @@ def get_recommendation(movie_id):
     return jsonify({
         'rec_movies': [get_movie(movie_id) for movie_id in movies_ids]
     })
+
