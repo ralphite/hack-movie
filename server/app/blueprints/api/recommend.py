@@ -15,19 +15,32 @@ from ... import db
 
 from random import sample
 
-from app.models import Movie, Ratings
+from app.models import Movie, Ratings, Links
 
 
-def get_rec_movies(user_id):
+def get_rec_movies(movie_id):
     movies = Movie.query.all()
 
     return [m.movie_id for m in sample(movies, 5)]
 
 
-@api.route('/get-recommendation/<user_id>', methods=['GET'])
-def get_recommendation(user_id):
-    movies_ids = get_rec_movies(user_id)
+def get_movie(movie_id):
+    movie = Movie.query.filter_by(movie_id=movie_id).first_or_404()
+
+    link = Links.query.filter_by(movie_id=movie_id).first_or_404()
+
+    res = movie.get_movie()
+
+    res['imdbId'] = link.imdb_id
+    res['tmdbId'] = link.tmdb_id
+
+    return res
+
+
+@api.route('/get-recommendation/<movie_id>', methods=['GET'])
+def get_recommendation(movie_id):
+    movies_ids = get_rec_movies(movie_id)
 
     return jsonify({
-        'rec_movies': movies_ids
+        'rec_movies': [get_movie(movie_id) for movie_id in movies_ids]
     })
