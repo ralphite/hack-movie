@@ -8,6 +8,7 @@ import os
 
 from app.rec_service import rec
 from app.utils.poster import get_poster
+from app.models import Movie, Links, Ratings, Tags, User, Rec
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -42,8 +43,6 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def populate_data():
-    from app.models import Movie, Links, Ratings, Tags, User
-
     with(open('./data/movies.csv', 'r')) as movie_data:
         for line in movie_data:
             if not line[:7] == 'movieId':
@@ -103,7 +102,6 @@ def populate_data():
 
 @manager.command
 def add_posters():
-    from app.models import Movie, Links, Ratings, Tags, User
 
     movies = Movie.query.all()
 
@@ -117,6 +115,26 @@ def add_posters():
         db.session.commit()
     except:
         db.session.rollback()
+
+
+@manager.command
+def add_rec():
+    movies = Movie.query.all()
+    movies = [m for m in movies if m.poster]
+
+    for movie in movies:
+        rec_ids = rec.rec_for_movie(movie.movie_id)
+
+        for rec_id in rec_ids:
+            r = Rec()
+            r.movie_id = movie.movie_id
+            r.rec_movie_id = rec_id
+            db.session.add(r)
+
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
 
 if __name__ == '__main__':
     manager.run()

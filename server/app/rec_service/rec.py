@@ -52,5 +52,3 @@ def rec_for_movie(movie_id):
 
     ids = result.head(6).to_dict()['count'].keys()
     return [i for i in ids if i != movie_id][:5]
-
-print rec_for_movie(13)
