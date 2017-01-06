@@ -13,6 +13,7 @@ from flask.ext.debugtoolbar import DebugToolbarExtension
 # from flask.ext.webpack import Webpack
 from flask.ext.admin import Admin
 from flask.ext.admin.contrib.sqla import ModelView
+from flask_cors import CORS, cross_origin
 
 from settings import settings
 
@@ -30,6 +31,8 @@ debug_toolbar = DebugToolbarExtension()
 
 def create_app(config_type):
     app = Flask(__name__)
+
+    CORS(app)
 
     config = settings[config_type]
     app.config.from_object(config)
