@@ -18,6 +18,10 @@ from app.rec_service.rec import rec_for_movie
 from app.decorators import jsonp
 
 
+def movie_json(movie_id):
+    movie = Movie.query.filter_by(movie_id=movie_id).first_or_404()
+    return movie.get_movie()
+
 @api.route('/movie/<movie_id>', methods=['GET'])
 def get_movie(movie_id):
     movie = Movie.query.filter_by(movie_id=movie_id).first_or_404()
@@ -56,7 +60,7 @@ def get_movie(movie_id):
             db.session.rollback()
         recs = Rec.query.filter_by(movie_id=movie_id).all()
 
-    res['recs'] = [r.rec_movie_id for r in recs]
+    res['recs'] = [movie_json(r.rec_movie_id) for r in recs]
 
     return jsonify(res)
 
