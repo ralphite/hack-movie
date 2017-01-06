@@ -61,8 +61,8 @@ def get_movie(movie_id):
     return jsonify(res)
 
 
-@jsonp
 @api.route('/movie-jsonp/<movie_id>', methods=['GET'])
+@jsonp
 def get_movie_jsonp(movie_id):
     movie = Movie.query.filter_by(movie_id=movie_id).first_or_404()
 
